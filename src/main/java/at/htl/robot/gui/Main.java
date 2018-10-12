@@ -12,12 +12,22 @@ public class Main extends PApplet {
         PApplet.main("at.htl.robot.gui.Main", args);
     }
 
+    Robot robot;
+    int leftMargin = 28;
+    int upperMargin = 50;
+    int boxLength = 50;
+
+
     public void settings() {
         size(800, 800);
     }
 
     public void setup() {
-        background(209); //https://processing.org/tutorials/color/
+        background(209);
+        robot= new Robot();
+        robot.setX(1);
+        robot.setY(1);
+    //https://processing.org/tutorials/color/
 
 
     }
@@ -26,6 +36,31 @@ public class Main extends PApplet {
      * Diese Methode wird iterativ durchlaufen (wie loop() beim Arduino)
      */
     public void draw() {
+        for (int i = 0; i < 11; i++) {
+            line(leftMargin,
+                    upperMargin+i* boxLength,
+                    leftMargin+10*boxLength,
+                    upperMargin+i*boxLength);
+
+            line(leftMargin+i*boxLength, upperMargin,
+                    leftMargin+i*boxLength,
+                    upperMargin+10*boxLength);
+
+        }
+
+        int boxCenterX = leftMargin + robot.getX() * boxLength - boxLength / 2;
+        int boxCenterY = upperMargin + robot.getY() * boxLength - boxLength / 2;
+
+        ellipse(boxCenterX,
+                boxCenterY,
+                (int)(boxLength*0.8),
+                (int)(boxLength*0.8))
+                ;
+
+
+
+
+
 
     }
 
@@ -45,6 +80,7 @@ public class Main extends PApplet {
      * Erstellen Sie eine eigene Methode zum Löschen des Bildschirms
      */
     public void deleteAll() {
+        background(209);
 
     }
 
@@ -55,9 +91,12 @@ public class Main extends PApplet {
         println("pressed " + key + " " + keyCode);
 
         if (key == 'f' || key == 'F') {
+            robot.stepForward();
+            deleteAll();
 
         } else if (key == 'l' || key == 'L') {
-
+            robot.rotateLeft();
+            deleteAll();
         }
 
     }
